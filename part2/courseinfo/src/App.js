@@ -35,7 +35,8 @@ const Content =(props) =>{
 
 
 const Total =(props) =>{
-  const total=props.course[0].exercises + props.course[1].exercises + props.course[2].exercises
+  //const total=props.course[0].exercises + props.course[1].exercises + props.course[2].exercises
+  const total=props.total
   return (
     <p>
       {`total of exercises ${total}`}
@@ -48,10 +49,14 @@ const Course =(props) =>{
 
   const course=props.course;
 
+  const total= course.parts.reduce((s,p) => {
+    return s+p.exercises
+  },0)
+
   return <div>
     <Header course={course.name} />
     <Content course={course.parts} />
-    <Total course={course.parts}/>
+    <Total total={total}/>
   </div>
 }
 
@@ -82,7 +87,8 @@ const App = () => {
       }
     ]
   }
-  
+
+
   return (
     <Course course={course} />
   )
