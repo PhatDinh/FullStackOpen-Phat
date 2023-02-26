@@ -3,6 +3,8 @@ const express = require('express')
 const app = express();
 
 
+
+
 const phones = [
     { 
       "id": 1,
@@ -29,6 +31,11 @@ const phones = [
 
 app.get('/api/persons',(req,res) => {
     res.json(phones)
+})
+
+app.get('/info',(req,res)=>{
+  const requestTime = new Date(Date.now())
+  res.send(`<div><p>Phonebook has info for ${phones.length} people</p><p>${requestTime}</p></div>`)
 })
 
 
