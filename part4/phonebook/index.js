@@ -2,7 +2,7 @@ const express = require('express')
 
 const app = express();
 
-
+app.use(express.json())
 
 
 let phones = [
@@ -56,6 +56,46 @@ app.get('/info',(req,res)=>{
   res.send(`<div><p>Phonebook has info for ${phones.length} people</p><p>${requestTime}</p></div>`)
 })
 
+
+const generateId = () => {
+  const id = Math.floor(Math.random() * 9999)
+  return id
+}
+
+
+app.post('/api/persons',(req,res)=>{
+  const body = req.body
+
+
+//check if missing
+  if (!body.name || !body.number)
+  {
+    let error 
+    if (!body.name && !body.number) error ='Name and number are missing'
+    else error = !body.name ? 'Name is missing' : 'Number is missing'
+    return res.status(400).json({
+      "error" : error
+    })
+  }
+
+  //check if duplicate
+  if (phones.find(person => person.name==body.name))
+  {
+    return res.status(400).json({
+      "error" : "name must be unique"
+    })
+  }
+  
+  const person = {
+    "id" : generateId(),
+    "name" : body.name,
+    "number" : body.number
+  }
+
+  phones = phones.concat(person)
+
+  res.json(body)
+})
 
 
 
