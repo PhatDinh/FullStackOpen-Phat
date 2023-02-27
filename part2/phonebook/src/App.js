@@ -9,10 +9,17 @@ const App = () => {
 
   const addPerson = (event) =>{
     event.preventDefault();
-    setPersons(prev=>{
-      return [...prev,{'name' : newName}]
-    })
-    setNewName('')
+    if (persons.find(person => person.name===newName))
+    {
+      alert(`${newName} is already added to phonebook`)
+    }
+    else
+    {
+      setPersons(prev=>{
+        return [...prev,{'name' : newName}]
+      })
+      setNewName('')
+    }
   }
 
 
